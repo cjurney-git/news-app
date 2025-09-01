@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -111,6 +112,14 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+CRONJOBS = [
+    ('*/5 * * * *', 'cron.handleFetch')
+]
+
+CRONTAB_COMMAND_PREFIX = f'API_KEY={api_key}'
 
 
 # Internationalization

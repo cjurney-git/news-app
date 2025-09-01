@@ -1,9 +1,9 @@
 import requests
 from django.conf import settings
+from news.models import Article
 
-import models
 def fetch_news_articles():
-    url = f"https://api.thenewsapi.com/v1/news/headlines?locale=us&language=en&api_token={settings.api_key}"
+    url = f"https://api.thenewsapi.com/v1/news/top?api_token={settings.api_key}&locale=us&limit=3"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()["articles"]
@@ -20,10 +20,13 @@ def save_articles_to_db(articles, ArticleModel):
             url=article["url"]
         )
         article_instance.save()
+        print(f"Article saved: {article_instance.title}")
 
 def fetch_and_save_articles():
-    ArticleModel = models.Article
     articles = fetch_news_articles()
-    save_articles_to_db(articles, ArticleModel)
+    save_articles_to_db(articles, Article) 
+    return articles
 
-
+# cron function to be run
+def handleFetch():
+    fetch_and_save_articles()
