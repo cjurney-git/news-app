@@ -1,12 +1,17 @@
 import requests
 from django.conf import settings
 from news.models import Article
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables from .env
+api_key = os.getenv('API_KEY')
 
 def fetch_news_articles():
-    url = f"https://api.thenewsapi.com/v1/news/top?api_token={settings.api_key}&locale=us&limit=3"
+    url = f"https://api.thenewsapi.com/v1/news/top?api_token={api_key}&locale=us&limit=3"
     response = requests.get(url)
     if response.status_code == 200:
-        return response.json()["articles"]
+        return response.json()["data"]
     else:
         return []
 
@@ -14,8 +19,9 @@ def save_articles_to_db(articles, ArticleModel):
     for article in articles:
         article_instance = ArticleModel(
             title=article["title"],
-            content=article["content"],
-            published_date=article["published_date"],
+            description=article["description"],
+            snippet=article["snippet"],
+            published_date=article["published_at"],
             source=article["source"],
             url=article["url"]
         )

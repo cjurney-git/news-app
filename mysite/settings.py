@@ -116,7 +116,7 @@ REST_FRAMEWORK = {
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 CRONJOBS = [
-    ('*/5 * * * *', 'cron.handleFetch')
+    ('*/1 * * * *', 'cron.handleFetch')
 ]
 
 CRONTAB_COMMAND_PREFIX = f'API_KEY={api_key}'
