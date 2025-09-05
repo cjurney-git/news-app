@@ -18,12 +18,17 @@ def fetch_news_articles():
 def save_articles_to_db(articles, ArticleModel):
     for article in articles:
         article_instance = ArticleModel(
+            uuid=article["uuid"],
             title=article["title"],
             description=article["description"],
+            keywords=article["keywords"],
             snippet=article["snippet"],
             published_date=article["published_at"],
             source=article["source"],
-            url=article["url"]
+            url=article["url"],
+            language=article["language"],
+            categories=article["categories"],
+            locale=article["locale"]
         )
         article_instance.save()
         print(f"Article saved: {article_instance.title}")
