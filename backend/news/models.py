@@ -9,6 +9,7 @@ class Article(models.Model):
     description = models.TextField(default="no description")
     keywords = models.TextField(default="no keywords")
     snippet = models.TextField(default="no snippet")
+    image_url = models.URLField(max_length=200, default='https://via.placeholder.com/150')
     url = models.URLField(max_length=200, default='https://www.google.com')
     language = models.CharField(max_length=50, default="en")
     published_date = models.DateTimeField(default=timezone.now)

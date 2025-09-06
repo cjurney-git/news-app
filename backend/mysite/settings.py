@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'news.apps.NewsConfig',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -110,13 +112,15 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
 }
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 CRONJOBS = [
-    ('*/1 * * * *', 'cron.handleFetch')
+    ('*/30 * * * *', 'cron.handleFetch')
 ]
 
 CRONTAB_COMMAND_PREFIX = f'API_KEY={api_key}'
@@ -132,6 +136,13 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+CORS_ALLOW_ALL_ORIGINS = True # Note: This is permissive and suitable for development.
+# For production, specify the exact origins below and set CORS_ALLOW_ALL_ORIGINS to False:
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://your-frontend-domain.com",
+# ]
 
 
 # Static files (CSS, JavaScript, Images)

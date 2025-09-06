@@ -10,5 +10,5 @@ def index(request):
     return HttpResponse("Hello, world. You're at the news index.")
 
 class ArticleViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.all()
+    queryset = Article.objects.all().order_by('-published_date')
     serializer_class = ArticleSerializer

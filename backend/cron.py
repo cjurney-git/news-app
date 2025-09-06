@@ -8,7 +8,7 @@ load_dotenv()  # take environment variables from .env
 api_key = os.getenv('API_KEY')
 
 def fetch_news_articles():
-    url = f"https://api.thenewsapi.com/v1/news/top?api_token={api_key}&locale=us&limit=3"
+    url = f"https://api.thenewsapi.com/v1/news/top?api_token={api_key}&locale=us&language=en&limit=3"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()["data"]
@@ -25,6 +25,7 @@ def save_articles_to_db(articles, ArticleModel):
             snippet=article["snippet"],
             published_date=article["published_at"],
             source=article["source"],
+            image_url=article["image_url"],
             url=article["url"],
             language=article["language"],
             categories=article["categories"],
